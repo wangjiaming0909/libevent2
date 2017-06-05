@@ -7,7 +7,7 @@ cc = gcc
 build:$(target)
 
 $(target):$(objects)
-	$(cc) $(objects) -o $(target)
+	$(cc) $(objects) -o $(target) -levent
 
 $(objects):*.c
 	$(cc) -c *.c -o $(objects) -g
