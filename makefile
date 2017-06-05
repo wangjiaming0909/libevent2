@@ -12,5 +12,7 @@ $(target):$(objects)
 $(objects):*.c
 	$(cc) -c *.c -o $(objects) -g
 
+.PHONY:clean
+
 clean:
-	rm $(objects) $(target)
+	$(RM) $(objects) $(target)
