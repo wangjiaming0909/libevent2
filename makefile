@@ -1,14 +1,16 @@
 
 target = a.out
 objects = $(patsubst %.c, %.o, $(wildcard *.c))
+cc = gcc
+
 
 build:$(target)
 
 $(target):$(objects)
-	gcc $(objects) -o $(target)
+	$(cc) $(objects) -o $(target)
 
 $(objects):*.c
-	gcc -c *.c -o $(objects) -g
+	$(cc) -c *.c -o $(objects) -g
 
 clean:
 	rm $(objects) $(target)
