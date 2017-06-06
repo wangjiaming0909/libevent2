@@ -19,6 +19,5 @@ int main() {
 
 	printf("%s\n", env);
 	printf("hello world\n");
-	//system("pause");
 	return 0;
 }

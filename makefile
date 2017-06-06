@@ -16,3 +16,8 @@ $(objects):*.c
 
 clean:
 	$(RM) $(objects) $(target)
+
+//??
+print:*.c
+	echo *.c
+	touch print
