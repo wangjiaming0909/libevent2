@@ -14,10 +14,11 @@ $(objects):*.c
 
 .PHONY:clean
 
-clean:
+clean:FORCE
 	$(RM) $(objects) $(target)
+FORCE:
 
-//??
+#??
 print:*.c
 	echo *.c
 	touch print
