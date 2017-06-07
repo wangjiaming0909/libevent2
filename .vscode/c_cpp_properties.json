@@ -6,8 +6,10 @@
                 "${workspaceRoot}",
                 "/usr/include/c++/6",
                 "/usr/include/x86_64-linux-gnu/c++/6",
+                "/usr/include/x86_64-linux-gnu/sys",
                 "/usr/local/include",
                 "/usr/include",
+                "/usr/include/arpa",
                 "/usr/include/x86_64-linux-gnu",
                 "/home/mrw/workspace/libevent-2.1.8-stable"
             ],
@@ -18,7 +20,9 @@
                     "/usr/include/x86_64-linux-gnu/c++/6",
                     "/usr/local/include",
                     "/usr/include",
+                    "/usr/include/arpa",
                     "/usr/include/x86_64-linux-gnu",
+                    "/usr/include/x86_64-linux-gnu/sys",
                     "/home/mrw/workspace/libevent-2.1.8-stable"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
