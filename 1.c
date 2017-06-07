@@ -7,7 +7,7 @@
 #include <string.h>
 
 void event_cb(evutil_socket_t fd, short what, void *args){
-	printf("event_cb called..  %s\n", (char *)args);
+	printf("event_cb called..  %s\n", (char *)args);	
 	
 	char 				buf[64];
 	const char *		readdr;
@@ -35,7 +35,7 @@ int main() {
 	const char* 			libeventverion = NULL;
 	struct event_config* 	evconf = NULL;
 	struct event *			ev = NULL;
-	struct timeval five_seconds = {5, 0};
+	struct timeval 			five_seconds = {5, 0};
 
 	//socket
 	fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -86,9 +86,6 @@ int main() {
 	}
 	event_add(ev, &five_seconds);
 	event_base_dispatch(base);
-
-
-
 
 	while(methods[i]){
 		printf("%s\n", methods[i]);
