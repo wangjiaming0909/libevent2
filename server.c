@@ -20,6 +20,7 @@ void event_cb(evutil_socket_t fd, short what, void *args){
 		printf("accpet error..");
 		return;
 	}
+	EVUTIL_CLOSESOCKET(fd);
 	readdr = inet_ntop(AF_INET, &clientaddr.sin_addr, buf, INET_ADDRSTRLEN);
 	printf("accepted a socket from: %s\n", readdr);
 }
