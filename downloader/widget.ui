@@ -95,6 +95,82 @@
      <item>
       <widget class="QTextEdit" name="content_editor"/>
      </item>
+     <item>
+      <widget class="QTextEdit" name="status_textedit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QLabel" name="start_label">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="text">
+          <string>start</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="start_spin_box"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="end_label">
+         <property name="text">
+          <string>end</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="end_spin_box"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="index_label">
+         <property name="text">
+          <string>index</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::RichText</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="index_spin_box"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="request_button">
+         <property name="text">
+          <string>Request</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="auto_acc_button">
+         <property name="text">
+          <string>Auto Ac</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
     </layout>
    </item>
   </layout>

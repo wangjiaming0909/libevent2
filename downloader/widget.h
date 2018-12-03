@@ -23,6 +23,7 @@ public:
 
 private:
     QUrl check_url();
+    void request();
 private slots:
     void on_browser_button__clicked();
     void on_download_button__clicked();
@@ -32,6 +33,9 @@ private slots:
     void clear_state();
     void on_clear_button_clicked();
     void on_config_file_button_clicked();
+
+    void on_request_button_clicked();
+    void on_one_package_downloaded(std::shared_ptr<QByteArray>, int index, int ret);
 
 private:
     Ui::Widget*                                     ui;
@@ -47,7 +51,9 @@ private:
     std::vector<int>                                finished_flag_;
     QString                                         config_file_name_;
     ConfigContents                                  config_;
-
+    std::shared_ptr<QByteArray>                     one_byte_data_;
+    RangeDownloader*                                package_range_downloader_;
+    std::vector<RangeDownloader*>                   package_range_downloader_ptrs_;
 };
 
 #endif // WIDGET_H

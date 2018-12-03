@@ -1,5 +1,6 @@
 #include "ranger_downloader.h"
 #include <QException>
+#include <thread>
 
 RangeDownloader::RangeDownloader(
         const ConfigContents* config,
@@ -25,7 +26,7 @@ RangeDownloader::RangeDownloader(
     request_ = std::shared_ptr<QNetworkRequest>(new QNetworkRequest{url.toString(QUrl::None)});
     request_->setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     request_->setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::UserVerifiedRedirectPolicy);
-    qDebug() << "url:" << url.toString();
+//    qDebug() << "url:" << url.toString();
 //    qDebug() << "url none:" << url.toString(QUrl::None);
 }
 
@@ -52,7 +53,7 @@ void RangeDownloader::setConfigHeaders()
         QList<QNetworkCookie> cookies{};
         for(auto& cookie : config_->cookies){
             cookies.append(cookie);
-            qDebug() << "setting cookie:" << cookie.name() << cookie.value();
+//            qDebug() << "setting cookie:" << cookie.name() << cookie.value();
         }
         request_->setHeader(QNetworkRequest::CookieHeader, QVariant::fromValue(cookies));
     }
@@ -73,14 +74,6 @@ void RangeDownloader::setRequestHeader(const QString &headerName, const QString 
     QNetworkRequest::KnownHeaders known_header;
     try {
         known_header = demultiplex_known_headers(headerName);
-//        if(known_header == QNetworkRequest::CookieHeader){
-//            QList<QVariant> cookies{};
-//            for(auto& cookie : config_->cookies){
-//                cookies.append(QVariant::fromValue(cookie));
-//            }
-//            request_->setHeader(known_header, cookies);
-//            return;
-//        }
         request_->setHeader(known_header, value);
     } catch (QException e) {
         request_->setRawHeader(headerName.toLatin1(), value.toLatin1());
@@ -123,13 +116,13 @@ void RangeDownloader::setFileName() {
 }
 
 void RangeDownloader::downloadFinished() {
-    int retry_times = 10;
+    int retry_times = 5;
     int ret = -1;
     while(true){
         if(retry_times == 0){
             qDebug() << "package failed:" << index_;
             ret = -1;
-            break;
+//            break;
         }
         contents_->clear();
         *contents_ = reply_->readAll();
@@ -138,6 +131,7 @@ void RangeDownloader::downloadFinished() {
                 qDebug() << "re GET" << retry_times << "times," << "contents empty";
             else
                 qDebug() << "http error:" << reply_->errorString();
+
             manager_.reset(new QNetworkAccessManager{});
             request_.reset(new QNetworkRequest{url_.toString()});
             request_->setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
@@ -149,6 +143,7 @@ void RangeDownloader::downloadFinished() {
                 manager_->connectToHost(url_.host());
             manager_->connectToHostEncrypted(url_.host());
             reply_ = manager_->get(*request_);
+
             retry_times--;
         }else{
             ret = 0;
@@ -166,9 +161,11 @@ void RangeDownloader::downloadFinished() {
     emit finished(contents_, index_, ret);
 }
 
+
+
 void RangeDownloader::requestRedirected(QUrl url)
 {
-    qDebug() << "reditected:" << url.toString();
+//    qDebug() << "reditected:" << url.toString();
     emit reply_->redirectAllowed();
 }
 

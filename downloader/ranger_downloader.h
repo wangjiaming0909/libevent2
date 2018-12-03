@@ -31,6 +31,8 @@ private:
     void setFileName();
     void parseConfig();
     void setConfigHeaders();
+    void divideAndRequest(int start, int end);
+    void retry();
 signals:
     void finished(std::shared_ptr<QByteArray>, int, int ret_value);
     void dump(QString info);
