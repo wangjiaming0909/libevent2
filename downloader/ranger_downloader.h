@@ -32,7 +32,7 @@ private:
     void parseConfig();
     void setConfigHeaders();
 signals:
-    void finished(std::shared_ptr<QByteArray>, int);
+    void finished(std::shared_ptr<QByteArray>, int, int ret_value);
     void dump(QString info);
 public slots:
     void downloadFinished();

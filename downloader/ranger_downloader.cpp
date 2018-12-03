@@ -122,22 +122,22 @@ void RangeDownloader::setFileName() {
     emit dump(QString("%1 %2%3").arg(index_).arg("fileName: ").arg(fileName_));
 }
 
-
 void RangeDownloader::downloadFinished() {
     int retry_times = 10;
+    int ret = -1;
     while(true){
         if(retry_times == 0){
             qDebug() << "package failed:" << index_;
-            return;
+            ret = -1;
+            break;
         }
         contents_->clear();
         *contents_ = reply_->readAll();
         if(reply_->error() != QNetworkReply::NoError || contents_->isEmpty()){
             if(contents_->isEmpty())
-                qDebug() << "contents empty ";
-            qDebug() << "error:" << reply_->errorString();
-//            manager_->clearConnectionCache();
-//            manager_->clearAccessCache();
+                qDebug() << "re GET" << retry_times << "times," << "contents empty";
+            else
+                qDebug() << "http error:" << reply_->errorString();
             manager_.reset(new QNetworkAccessManager{});
             request_.reset(new QNetworkRequest{url_.toString()});
             request_->setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
@@ -151,6 +151,7 @@ void RangeDownloader::downloadFinished() {
             reply_ = manager_->get(*request_);
             retry_times--;
         }else{
+            ret = 0;
             break;
         }
     }
@@ -161,7 +162,8 @@ void RangeDownloader::downloadFinished() {
         setFileName();
         first_tag_++;
     }
-    emit finished(contents_, index_);
+    ret = 0;
+    emit finished(contents_, index_, ret);
 }
 
 void RangeDownloader::requestRedirected(QUrl url)

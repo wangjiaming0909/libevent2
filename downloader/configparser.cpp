@@ -28,7 +28,7 @@ void IDMConfigParser::parse()
         if(tmp.startsWith("<")){
             configs_.push_back(std::shared_ptr<ConfigContents>(new ConfigContents{}));
             qDebug() << "find one config element...";
-        }else if(tmp.startsWith("http:")){
+        }else if(tmp.startsWith("http")){
             configs_.back()->url = tmp.trimmed();
             qDebug() << "url:" << configs_.back()->url;
         }else if(tmp.startsWith("referer:")){

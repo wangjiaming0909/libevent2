@@ -9,6 +9,11 @@
 #include <QNetworkCookie>
 
 struct ConfigContents{
+    void clear(){
+        url.clear();
+        headers.clear();
+        cookies.clear();
+    }
     QString                                     url;
     std::vector<std::pair<QString, QString>>    headers;
     QList<QNetworkCookie>                       cookies;

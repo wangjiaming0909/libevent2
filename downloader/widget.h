@@ -26,8 +26,8 @@ private:
 private slots:
     void on_browser_button__clicked();
     void on_download_button__clicked();
-    void on_range_downloaded(std::shared_ptr<QByteArray>, int index);
-    void on_1range_downloaded(std::shared_ptr<QByteArray>, int index);
+    void on_range_downloaded(std::shared_ptr<QByteArray>, int index, int ret);
+    void on_1range_downloaded(std::shared_ptr<QByteArray>, int index, int ret);
     void on_dump(QString info);
     void clear_state();
     void on_clear_button_clicked();
