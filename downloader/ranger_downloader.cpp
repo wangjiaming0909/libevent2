@@ -26,7 +26,7 @@ RangeDownloader::RangeDownloader(
     request_->setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     request_->setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::UserVerifiedRedirectPolicy);
     qDebug() << "url:" << url.toString();
-    qDebug() << "url none:" << url.toString(QUrl::None);
+//    qDebug() << "url none:" << url.toString(QUrl::None);
 }
 
 void RangeDownloader::parseConfig()
@@ -124,8 +124,36 @@ void RangeDownloader::setFileName() {
 
 
 void RangeDownloader::downloadFinished() {
-    contents_->clear();
-    *contents_ = reply_->readAll();
+    int retry_times = 10;
+    while(true){
+        if(retry_times == 0){
+            qDebug() << "package failed:" << index_;
+            return;
+        }
+        contents_->clear();
+        *contents_ = reply_->readAll();
+        if(reply_->error() != QNetworkReply::NoError || contents_->isEmpty()){
+            if(contents_->isEmpty())
+                qDebug() << "contents empty ";
+            qDebug() << "error:" << reply_->errorString();
+//            manager_->clearConnectionCache();
+//            manager_->clearAccessCache();
+            manager_.reset(new QNetworkAccessManager{});
+            request_.reset(new QNetworkRequest{url_.toString()});
+            request_->setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+            request_->setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::UserVerifiedRedirectPolicy);
+            QString scheme = url_.scheme();
+            if(scheme.compare("https", Qt::CaseInsensitive) == 0)
+                manager_->connectToHostEncrypted(url_.host());
+            else if(scheme.compare("http", Qt::CaseInsensitive) == 0)
+                manager_->connectToHost(url_.host());
+            manager_->connectToHostEncrypted(url_.host());
+            reply_ = manager_->get(*request_);
+            retry_times--;
+        }else{
+            break;
+        }
+    }
 //    qDebug() << "read: " << contents_->size() << "bytes";
     emit dump(QString("%1 %2%3").arg(index_).arg("read: ").arg(contents_->size()));
     if(first_tag_ == 0){
