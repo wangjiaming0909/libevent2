@@ -19,7 +19,7 @@ class Widget : public QWidget {
 public:
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
-    void get_1_and_total_length_and_fileName(const QUrl&, int from, int to);
+    void get_1byte_and_total_length_and_fileName(const QUrl&, int from, int to);
 
 private:
     QUrl check_url();
@@ -27,7 +27,7 @@ private slots:
     void on_browser_button__clicked();
     void on_download_button__clicked();
     void on_range_downloaded(std::shared_ptr<QByteArray>, int index, int ret);
-    void on_1range_downloaded(std::shared_ptr<QByteArray>, int index, int ret);
+    void on_1byte_range_downloaded(std::shared_ptr<QByteArray>, int index, int ret);
     void on_dump(QString info);
     void clear_state();
     void on_clear_button_clicked();

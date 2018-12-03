@@ -34,10 +34,16 @@ void Widget::on_browser_button__clicked() {
     qDebug() << save_dir;
 }
 
-void Widget::get_1_and_total_length_and_fileName(const QUrl& url, int from, int to) {
+void Widget::get_1byte_and_total_length_and_fileName(const QUrl& url, int from, int to) {
     first_range_downloader_ = std::shared_ptr<RangeDownloader>(new RangeDownloader{&config_, url, {from, to}, 0});
-    connect(first_range_downloader_.get(), SIGNAL(finished(std::shared_ptr<QByteArray>, int, int)), this, SLOT(on_1range_downloaded(std::shared_ptr<QByteArray>, int, int)));
-    connect(first_range_downloader_.get(), SIGNAL(dump(QString)), this, SLOT(on_dump(QString)));
+    connect(first_range_downloader_.get(),
+            SIGNAL(finished(std::shared_ptr<QByteArray>, int, int)),
+            this,
+            SLOT(on_1byte_range_downloaded(std::shared_ptr<QByteArray>, int, int)));
+    connect(first_range_downloader_.get(),
+            SIGNAL(dump(QString)),
+            this,
+            SLOT(on_dump(QString)));
     first_range_downloader_->start();
 }
 
@@ -55,7 +61,7 @@ void Widget::on_download_button__clicked() {
     range_downloaders_.resize(ui->spinBox->text().toUInt());
     finished_flag_.resize(ui->spinBox->text().toUInt());
     for(int& i : finished_flag_) i = 0;
-    get_1_and_total_length_and_fileName(url, 0, 0);
+    get_1byte_and_total_length_and_fileName(url, 0, 0);
 }
 
 void Widget::on_range_downloaded(std::shared_ptr<QByteArray> data, int index, int ret) {
@@ -81,7 +87,7 @@ void Widget::clear_state() {
     ui->lineEdit->clear();
 }
 
-void Widget::on_1range_downloaded(std::shared_ptr<QByteArray> data, int index, int ret) {
+void Widget::on_1byte_range_downloaded(std::shared_ptr<QByteArray> data, int index, int ret) {
     total_length_ = first_range_downloader_->TotalLength();
     if(ret != 0 || total_length_ == 0){
         ui->content_editor->append("error, total_length is 0");
