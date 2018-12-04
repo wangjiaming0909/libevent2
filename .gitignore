@@ -259,3 +259,5 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+build-downloader-Desktop_Qt_5_11_2_MinGW_32bit-Debug

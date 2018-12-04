@@ -122,7 +122,7 @@ void RangeDownloader::downloadFinished() {
         if(retry_times == 0){
             qDebug() << "package failed:" << index_;
             ret = -1;
-//            break;
+            break;
         }
         contents_->clear();
         *contents_ = reply_->readAll();
